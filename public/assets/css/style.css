@@ -1,0 +1,74 @@
+body {
+  background: linear-gradient(135deg, #f8f9fa, #dee2e6);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-box {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+}
+
+.brand-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 10px;
+}
+
+.brand-title {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #343a40;
+}
+
+.role-selection {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+  gap: 1rem;
+}
+
+.role-card {
+  flex: 1;
+  border: 2px solid transparent;
+  padding: 0.75rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.role-card:hover {
+  background-color: #e9ecef;
+}
+
+.role-card.active {
+  border-color: #343a40;
+  background-color: #343a40;
+  color: white;
+}
+
+.btn-login {
+  background-color: #343a40;
+  color: white;
+}
+
+.btn-login:hover {
+  background-color: #212529;
+}
+
+.form-section {
+  display: none;
+}
+
+.form-section.active {
+  display: block;
+}
