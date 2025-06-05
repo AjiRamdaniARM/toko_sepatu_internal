@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('password');
             $table->string('jabatan');
+            $table->string('role');
             $table->integer('department_id');
             $table->date('tanggal_bergabung');
             $table->timestamps();

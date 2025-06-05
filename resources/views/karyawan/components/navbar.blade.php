@@ -45,9 +45,7 @@
       <a class="flex items-center gap-1 hover:text-gray-900 font-semibold" href="{{route('admin.dashboard')}}" >
         <i class="fas fa-home w-4 text-center"></i> <span>Home</span>
       </a>
-      <a class="flex items-center gap-1 hover:text-gray-900" href="{{route('admin.pegawai')}}">
-        <i class="fas fa-user-friends w-4 text-center"></i> <span>Pegawai</span>
-      </a>
+
       <!-- Dropdown Rekap Presensi -->
       <div class="relative" onmouseleave="delayHideDropdown()" onmouseenter="clearHideTimeout()">
         <button class="flex items-center gap-1 hover:text-gray-900 focus:outline-none" onclick="toggleDropdown()">
@@ -64,7 +62,7 @@
       <a class="flex items-center gap-1 hover:text-gray-900" href="{{ route('admin.ketidak_hadiran')}}">
         <i class="fas fa-calendar-times w-4 text-center"></i> <span>Ketidakhadiran</span>
       </a>
-      <a class="flex items-center gap-1 hover:text-gray-900" href="{{route('admin.logout.admin')}}">
+      <a class="flex items-center gap-1 hover:text-gray-900" href="{{route('karyawan.logout')}}">
         <i class="fas fa-sign-out-alt w-4 text-center"></i> <span>Logout</span>
       </a>
     </nav>

@@ -24,5 +24,19 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+         DB::table('karyawan')->insert([
+            [
+                'kode_karyawan' => 'admin',
+                'nama' => 'admin@gmail.com',
+                'email' => Hash::make('12345678'),
+                'password' => Hash::make('12345678'),
+                'jabatan' => 'staff',
+                'role' => 'leader',
+                'department_id' => 22295,
+                'tanggal_bergabung' => now(),
+                 'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

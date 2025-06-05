@@ -11,7 +11,7 @@
     <h2 class="text-gray-900 font-semibold text-lg mb-4 select-none">
      Data Pegawai
     </h2>
-    <button onclick="window.location.href='tambah-data.html'" class="mb-4 px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800" type="button">
+    <button onclick="window.location.href='{{ route('admin.pegawai.create')}}'" class="mb-4 px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800" type="button">
      <i class="fas fa-plus-square mr-1">
      </i>
      Tambah Data
@@ -24,163 +24,69 @@
          No.
         </th>
         <th class="border border-gray-200 px-4 py-2 font-semibold">
-         Nama
+         Kode Karyawan
         </th>
         <th class="border border-gray-200 px-4 py-2 font-semibold">
-         Username
+         Nama Lengkap
         </th>
         <th class="border border-gray-200 px-4 py-2 font-semibold">
-         Jabatan
+         Email
         </th>
         <th class="border border-gray-200 px-4 py-2 font-semibold">
          Role
         </th>
+         <th class="border border-gray-200 px-4 py-2 font-semibold">
+         Jabatan
+        </th>
+        
         <th class="border border-gray-200 px-4 py-2 font-semibold">
          Aksi
         </th>
        </tr>
       </thead>
       <tbody class="bg-white">
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">
-         1
-        </td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">
-         PEG-0001
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Budi
-        </td>
-        <td class="border border-gray-200 px-4 py-2 lowercase">
-         Marketing
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Staff
-        </td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Detail
-         </button>
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Edit
-         </button>
-         <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700" type="button">
-          Hapus
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">
-         2
-        </td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">
-         PEG-0002
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Elsa
-        </td>
-        <td class="border border-gray-200 px-4 py-2 lowercase">
-         Admin
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Admin
-        </td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Detail
-         </button>
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Edit
-         </button>
-         <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700" type="button">
-          Hapus
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">
-         3
-        </td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">
-         PEG-0003
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Rendi
-        </td>
-        <td class="border border-gray-200 px-4 py-2 lowercase">
-         CEO
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         CEO
-        </td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Detail
-         </button>
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Edit
-         </button>
-         <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700" type="button">
-          Hapus
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">
-         3
-        </td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">
-         PEG-0004
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Dena
-        </td>
-        <td class="border border-gray-200 px-4 py-2 lowercase">
-         Leader
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Leader
-        </td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Detail
-         </button>
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Edit
-         </button>
-         <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700" type="button">
-          Hapus
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">
-         3
-        </td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">
-         PEG-0005
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Zaki
-        </td>
-        <td class="border border-gray-200 px-4 py-2 lowercase">
-         Karyawan
-        </td>
-        <td class="border border-gray-200 px-4 py-2">
-         Karyawan
-        </td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Detail
-         </button>
-         <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800" type="button">
-          Edit
-         </button>
-         <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700" type="button">
-          Hapus
-         </button>
-        </td>
-       </tr>
+        @foreach ($getPegawai as $pegawai )
+          <tr>
+          <td class="border border-gray-200 px-4 py-2">
+           {{ $loop->iteration }}
+          </td>
+          <td class="border border-gray-200 px-4 py-2 font-semibold">
+          {{$pegawai->kode_karyawan}}
+          </td>
+          <td class="border border-gray-200 px-4 py-2">
+          {{$pegawai->nama}}
+          </td>
+          <td class="border border-gray-200 px-4 py-2 lowercase">
+           {{$pegawai->email}}
+          </td>
+          <td class="border border-gray-200 px-4 py-2">
+           {{$pegawai->jabatan}}
+          </td>
+          <td class="border border-gray-200 px-4 py-2">
+           {{$pegawai->role}}
+          </td>
+          <td class="border border-gray-200 px-4 py-2">
+            <div class="flex space-x-1">
+              <button onclick="window.location.href='{{ route('admin.detail_pegawai', $pegawai->id)}}'" class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800" type="button">
+                Detail
+              </button>
+
+              <button onclick="window.location.href='{{ route('admin.edited_pegawai', $pegawai->id)}}'" class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800" type="button">
+                Edit
+              </button>
+
+              <form action="{{ route('admin.delete_pegawai', $pegawai->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                @csrf
+                <button type="submit" class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700">
+                  Hapus
+                </button>
+              </form>
+            </div>
+          </td>
+
+          </tr>
+        @endforeach
+       
       </tbody>
      </table>
     </div>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('admin.components.header') 
+    @include('karyawan.components.header') 
 </head>
 <body class="bg-white text-gray-700">
-    @include('admin.components.navbar')
+    @include('karyawan.components.navbar')
         {{-- == main == --}}
  <main class="flex-grow bg-gray-50 flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20">
     <div class="max-w-md w-full bg-white rounded shadow p-8 text-center">
@@ -19,7 +19,7 @@
         <button type="button" class="px-6 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 select-none">
           Batal
         </button>
-        <form action="{{ route('admin.logout.admin.post')}}" method="POST">
+        <form action="{{ route('post_karyawan_logout')}}" method="POST">
           @csrf
           <button type="submit" class="px-6 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 select-none">
             Logout

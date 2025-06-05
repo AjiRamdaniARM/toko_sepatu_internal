@@ -12,17 +12,17 @@
      <div class="bg-white border border-gray-300 rounded p-4 flex flex-col items-center space-y-2 select-none">
       <i class="fas fa-user-check text-3xl text-gray-600"></i>
       <p class="text-sm font-semibold text-gray-600">Pegawai Hadir</p>
-      <p class="text-2xl font-bold text-gray-800">25</p>
+      <p class="text-2xl font-bold text-gray-800">{{$countKaryawan}}</p>
      </div>
      <div class="bg-white border border-gray-300 rounded p-4 flex flex-col items-center space-y-2 select-none">
       <i class="fas fa-user-times text-3xl text-gray-600"></i>
       <p class="text-sm font-semibold text-gray-600">Pegawai Alfa</p>
-      <p class="text-2xl font-bold text-gray-800">3</p>
+      <p class="text-2xl font-bold text-gray-800">{{$countKaryawanAlfa}}</p>
      </div>
      <div class="bg-white border border-gray-300 rounded p-4 flex flex-col items-center space-y-2 select-none">
       <i class="fas fa-user-clock text-3xl text-gray-600"></i>
       <p class="text-sm font-semibold text-gray-600">Pegawai Izin</p>
-      <p class="text-2xl font-bold text-gray-800">2</p>
+      <p class="text-2xl font-bold text-gray-800">{{$countKaryawanIzin}}</p>
      </div>
     </div>
     <section>
@@ -39,49 +39,24 @@
          <th class="border border-gray-200 px-4 py-2 font-semibold">Jam Masuk</th>
          <th class="border border-gray-200 px-4 py-2 font-semibold">Jam Keluar</th>
          <th class="border border-gray-200 px-4 py-2 font-semibold">Status</th>
-         <th class="border border-gray-200 px-4 py-2 font-semibold">Aksi</th>
+         {{-- <th class="border border-gray-200 px-4 py-2 font-semibold">Aksi</th> --}}
         </tr>
        </thead>
        <tbody>
+        @php $counter = 1; @endphp
+@foreach ($getDataAbsensi as $karyawan)
+    @foreach ($karyawan->absensi as $absen)
         <tr>
-         <td class="border border-gray-200 px-4 py-2">1</td>
-         <td class="border border-gray-200 px-4 py-2 font-semibold">Budi</td>
-         <td class="border border-gray-200 px-4 py-2">01 Juni 2024</td>
-         <td class="border border-gray-200 px-4 py-2">08:00</td>
-         <td class="border border-gray-200 px-4 py-2">17:00</td>
-         <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">Hadir</td>
-         <td class="border border-gray-200 px-4 py-2 space-x-1 text-gray-800">
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Detail</button>
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Edit</button>
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Hapus</button>
-         </td>
+            <td class="border border-gray-200 px-4 py-2">{{ $counter++ }}</td>
+            <td class="border border-gray-200 px-4 py-2 font-semibold">{{ $karyawan->nama }}</td>
+             <td class="border border-gray-200 px-4 py-2">{{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}</td>
+            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_masuk }}</td>
+            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_keluar ?? 'Belum ada data' }}</td>
+            <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">{{ $absen->status }}</td>
         </tr>
-        <tr>
-         <td class="border border-gray-200 px-4 py-2">2</td>
-         <td class="border border-gray-200 px-4 py-2 font-semibold">Elsa</td>
-         <td class="border border-gray-200 px-4 py-2">01 Juni 2024</td>
-         <td class="border border-gray-200 px-4 py-2">08:15</td>
-         <td class="border border-gray-200 px-4 py-2">17:05</td>
-         <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">Hadir</td>
-         <td class="border border-gray-200 px-4 py-2 space-x-1 text-gray-800">
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Detail</button>
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Edit</button>
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Hapus</button>
-         </td>
-        </tr>
-        <tr>
-         <td class="border border-gray-200 px-4 py-2">3</td>
-         <td class="border border-gray-200 px-4 py-2 font-semibold">Sari</td>
-         <td class="border border-gray-200 px-4 py-2">01 Juni 2024</td>
-         <td class="border border-gray-200 px-4 py-2">-</td>
-         <td class="border border-gray-200 px-4 py-2">-</td>
-         <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">Alfa</td>
-         <td class="border border-gray-200 px-4 py-2 space-x-1 text-gray-800">
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Detail</button>
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Edit</button>
-          <button class="px-2 py-0.5 rounded select-none hover:bg-gray-200" type="button">Hapus</button>
-         </td>
-        </tr>
+    @endforeach
+@endforeach
+        
        </tbody>
       </table>
      </div>

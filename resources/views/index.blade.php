@@ -23,13 +23,16 @@
         <img src="{{ asset('assets/img/ikon sepatu.jpeg')}}" alt="Logo Sepatu" class="brand-icon">
         <div class="brand-title">Toko Sepatu</div>
         <p class="text-muted">Silakan pilih login sebagai:</p>
+         @error('email')
+        <div class="text-red-500 text-sm">{{ $message }}</div>
+    @enderror
     </div>
     <div class="role-selection">
         <div class="role-card active" data-role="admin">Admin</div>
         <div class="role-card" data-role="karyawan">Karyawan</div>
     </div>
-    <div  class="form-section active">
-        <form action="{{ route('login.admin')}}" method="POST">
+    <div  class="form-section active" id="form-admin">
+        <form action="{{ route('login.admin')}}" method="POST"  >
             @csrf
         <div class="mb-3 text-start">
             <label for="adminEmail" class="form-label">Email Admin</label>
@@ -42,8 +45,8 @@
         <button type="submit" class="btn btn-login w-100">Masuk sebagai Admin</button>
         </form>
     </div>
-    <div class="form-section">
-        <form action="{{ route('login.karyawan')}}" method="POST">
+    <div class="form-section" id="form-karyawan">
+        <form action="{{ route('login.karyawan')}}" method="POST" >
             @csrf
         <div class="mb-3 text-start">
             <label for="karyawanEmail" class="form-label">Email Karyawan</label>
@@ -58,5 +61,29 @@
     </div>
     </div>
 </body>
-<script src="{{asset('assets/js/login.js')}}"></script>
+<script>
+  const roleCards = document.querySelectorAll(".role-card");
+  const formAdmin = document.getElementById("form-admin");
+  const formKaryawan = document.getElementById("form-karyawan");
+
+  roleCards.forEach(card => {
+    card.addEventListener("click", () => {
+      // Toggle active state on role cards
+      roleCards.forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+
+      // Show form based on selected role
+      const role = card.getAttribute("data-role");
+
+      if (role === "admin") {
+        formAdmin.classList.add("active");
+        formKaryawan.classList.remove("active");
+      } else {
+        formKaryawan.classList.add("active");
+        formAdmin.classList.remove("active");
+      }
+    });
+  });
+</script>
+
 </html>
