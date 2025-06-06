@@ -31,4 +31,8 @@ class Karyawan extends Authenticatable
 {
     return $this->hasMany(Absensi::class, 'kode_karyawan', 'kode_karyawan');
 }
+    public function k_hadiran()
+{
+    return $this->hasMany(k_hadiran::class, 'kode_karyawan', 'kode_karyawan');
+}
 }

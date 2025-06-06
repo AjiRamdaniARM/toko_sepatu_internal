@@ -46,13 +46,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 Route::middleware('auth:karyawan')->group(function () {
     Route::get('karyawan/dashboard',[KaryawanController::class, 'index'])->name('karyawan.dashboard');
     Route::get('karyawan/logout',[KaryawanController::class, 'logout'])->name('karyawan.logout');
-    
+    Route::get('/dashboard/ketidak_hadiran', [KaryawanController::class, 'k_hadiran'])->name('k_hadiran_karyawan');
 
     // post
     Route::post('karyawan/logout/post',[KaryawanController::class, 'post_logout'])->name('post_karyawan_logout');
     Route::post('karyawan/dashboard/absensi_masuk', [KaryawanController::class, 'absensi_masuk'])->name('absensi_masuk');
     Route::post('karyawan/dashboard/absensi_pulang', [KaryawanController::class, 'absensi_pulang'])->name('absensi_pulang');
     Route::get('karyawan/dashboard/cekStatus', [KaryawanController::class, 'statusAbsen'])->name('cekStatus');
+    Route::post('karyawan/dashboard/ketidak_hadiran/post', [KaryawanController::class, 'ketidak_hadiran_post'])->name('ketidak_hadiran_post');
 });
 
 // === akses login === //

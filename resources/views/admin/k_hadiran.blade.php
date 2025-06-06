@@ -13,7 +13,8 @@
     </div>
 
     <!-- Filter Tanggal -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+    <form action="" method="GET" action="{{ route('admin.ketidak_hadiran')}}">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
       <div>
         <label for="startDate" class="block text-xs font-semibold text-gray-700 mb-1">Mulai Tanggal</label>
         <input type="date" id="startDate" name="startDate"
@@ -29,6 +30,8 @@
           class="w-full sm:w-auto px-4 py-2 bg-blue-700 text-white text-sm rounded hover:bg-blue-800">Filter</button>
       </div>
     </div>
+    </form>
+
     <h2 class="text-gray-900 font-semibold text-lg mb-4 select-none">Data Ketidakhadiran</h2>
 
     <!-- Tabel Ketidakhadiran -->
@@ -45,28 +48,19 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr>
-            <td class="border border-gray-200 px-4 py-2">1</td>
-            <td class="border border-gray-200 px-4 py-2 font-semibold">PEG-0001</td>
-            <td class="border border-gray-200 px-4 py-2">Budi</td>
-            <td class="border border-gray-200 px-4 py-2">Alfa</td>
-            <td class="border border-gray-200 px-4 py-2">Tidak hadir tanpa keterangan</td>
-            <td class="border border-gray-200 px-4 py-2 space-x-1">
-              <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800">Edit</button>
-              <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700">Hapus</button>
-            </td>
-          </tr>
-          <tr>
-            <td class="border border-gray-200 px-4 py-2">2</td>
-            <td class="border border-gray-200 px-4 py-2 font-semibold">PEG-0002</td>
-            <td class="border border-gray-200 px-4 py-2">Rendi</td>
-            <td class="border border-gray-200 px-4 py-2">Sakit</td>
-            <td class="border border-gray-200 px-4 py-2">Sakit, ada keterangan dokter</td>
-            <td class="border border-gray-200 px-4 py-2 space-x-1">
-              <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800">Edit</button>
-              <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700">Hapus</button>
-            </td>
-          </tr>
+          @foreach ($getData as $k_absen )
+            <tr>
+              <td class="border border-gray-200 px-4 py-2">1</td>
+              <td class="border border-gray-200 px-4 py-2 font-semibold">{{ $k_absen->kode_karyawan }}</td>
+              <td class="border border-gray-200 px-4 py-2">{{ $k_absen->karyawan->nama }}</td>
+              <td class="border border-gray-200 px-4 py-2">{{ $k_absen->Alasan }}</td>
+              <td class="border border-gray-200 px-4 py-2">{{ $k_absen->Catatan }}</td>
+              <td class="border border-gray-200 px-4 py-2 space-x-1">
+                <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700">Hapus</button>
+              </td>
+            </tr>
+          @endforeach
+         
         </tbody>
       </table>
     </div>

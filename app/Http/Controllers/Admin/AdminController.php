@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
 use App\Models\Departemen;
+use App\Models\k_hadiran;
 use App\Models\Karyawan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +18,10 @@ class AdminController extends Controller
         $countKaryawan = Absensi::where('status','Hadir')->count();
         $countKaryawanAlfa = Absensi::where('status','Alfa')->count();
         $countKaryawanIzin = Absensi::where('status','Izin')->count();
+        $countKaryawanSakit = Absensi::where('status','Sakit')->count();
        $getDataAbsensi = Karyawan::with('absensi')->get();
 
-        return view('admin.dashboard',compact('countKaryawan','countKaryawanAlfa','countKaryawanIzin','getDataAbsensi'));
+        return view('admin.dashboard',compact('countKaryawan','countKaryawanAlfa','countKaryawanIzin','getDataAbsensi','countKaryawanSakit'));
     }
     public function pegawai () {
        $getPegawai = Karyawan::orderBy('nama', 'asc')->get();
@@ -99,18 +101,57 @@ class AdminController extends Controller
     }
 
     // == sub menu 
-    public function r_harian() {
-         return view('admin.m_rekap.harian');
-    }
-    public function r_bulanan() {
-          return view('admin.m_rekap.bulanan');
-    }
-    public function r_mingguan() {
-          return view('admin.m_rekap.mingguan');
-    }
+     public function r_harian(Request $request)
+{
+    $filterDate = $request->input('filterDate'); // Format: YYYY-MM-DD
 
-    public function k_hadiran() {
-         return view('admin.k_hadiran');
+    $getDataAbsensi = Karyawan::with(['absensi' => function ($query) use ($filterDate) {
+        if ($filterDate) {
+            $query->whereDate('tanggal', $filterDate);
+        }
+    }])->get();
+
+    return view('admin.m_rekap.harian', compact('getDataAbsensi'));
+}
+
+public function r_bulanan(Request $request)
+{
+    $filterMonth = $request->input('filterMonth'); // Format: YYYY-MM
+
+    $getDataAbsensi = Karyawan::with(['absensi' => function ($query) use ($filterMonth) {
+        if (!empty($filterMonth)) {
+            $year = substr($filterMonth, 0, 4);
+            $month = substr($filterMonth, 5, 2);
+            $query->whereYear('tanggal', $year)
+                  ->whereMonth('tanggal', $month);
+        }
+    }])->get();
+
+    return view('admin.m_rekap.bulanan', compact('getDataAbsensi', 'filterMonth'));
+}
+
+  public function r_mingguan(Request $request)
+{
+    $startWeek = $request->input('startWeek');
+    $endWeek = $request->input('endWeek');
+
+    $getDataAbsensi = Karyawan::with(['absensi' => function ($query) use ($startWeek, $endWeek) {
+        if ($startWeek && $endWeek) {
+            $query->whereBetween('tanggal', [$startWeek, $endWeek]);
+        }
+    }])->get();
+
+    return view('admin.m_rekap.mingguan', compact('getDataAbsensi', 'startWeek', 'endWeek'));
+}
+    public function k_hadiran(Request $request) {
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+        $getData = k_hadiran::with('karyawan')
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                return $query->whereBetween('created_at', [$startDate, $endDate]);
+            })
+            ->get();
+         return view('admin.k_hadiran', compact('getData'));
     }
     public function logout() {
          return view('admin.logout');

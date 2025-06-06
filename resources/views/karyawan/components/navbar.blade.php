@@ -42,7 +42,7 @@
     <div class="border-t border-b border-gray-200 w-full bg-white sticky top-0 z-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <nav class="flex flex-wrap items-center space-x-4 sm:space-x-6 text-sm text-gray-600 font-normal py-2 relative" >
-      <a class="flex items-center gap-1 hover:text-gray-900 font-semibold" href="{{route('admin.dashboard')}}" >
+      <a class="flex items-center gap-1 hover:text-gray-900 font-semibold" href="{{route('karyawan.dashboard')}}" >
         <i class="fas fa-home w-4 text-center"></i> <span>Home</span>
       </a>
 
@@ -59,7 +59,7 @@
           <a href="{{ route('admin.r_bulanan')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bulanan</a>
         </div>
       </div>
-      <a class="flex items-center gap-1 hover:text-gray-900" href="{{ route('admin.ketidak_hadiran')}}">
+      <a class="flex items-center gap-1 hover:text-gray-900" href="{{ route('k_hadiran_karyawan')}}">
         <i class="fas fa-calendar-times w-4 text-center"></i> <span>Ketidakhadiran</span>
       </a>
       <a class="flex items-center gap-1 hover:text-gray-900" href="{{route('karyawan.logout')}}">

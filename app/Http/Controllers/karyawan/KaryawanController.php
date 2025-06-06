@@ -4,6 +4,7 @@ namespace App\Http\Controllers\karyawan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
+use App\Models\k_hadiran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -88,8 +89,33 @@ public function absensi_pulang(Request $request)
     return response()->json(['message' => 'Absen pulang berhasil']);
 }
 
+public function k_hadiran() {
+    return view('karyawan.k_hadiran');
+}
 
+public function ketidak_hadiran_post(Request $request){
+      $request->validate([
+            'date' => 'required|date',
+            'absenceType' => 'required|string',
+            'reason' => 'required|string|max:1000',
+        ]);
 
+        // Simpan data ke database
+        k_hadiran::create([
+            'kode_Id' => auth()->user()->kode_karyawan ?? null, // Atau isi dengan ID siswa jika tersedia
+            'Nama' => auth()->user()->name ?? 'Anonim', // Atau dari form input
+            'Alasan' => ucfirst($request->absenceType),
+            'Catatan' => $request->reason,
+        ]);
+
+        Absensi::create([
+        'kode_karyawan' => auth()->user()->kode_karyawan ?? null,
+        'tanggal' => $request->date,
+        'status' => ucfirst($request->absenceType),
+    ]);
+
+        return redirect()->back()->with('success', 'Data ketidakhadiran berhasil dikirim.');
+}
 
     public function post_logout(Request $request) {
         if (Auth::guard('web')->check()) {

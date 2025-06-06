@@ -24,6 +24,11 @@
       <p class="text-sm font-semibold text-gray-600">Pegawai Izin</p>
       <p class="text-2xl font-bold text-gray-800">{{$countKaryawanIzin}}</p>
      </div>
+      <div class="bg-white border border-gray-300 rounded p-4 flex flex-col items-center space-y-2 select-none">
+      <i class="fas fa-user-clock text-3xl text-gray-600"></i>
+      <p class="text-sm font-semibold text-gray-600">Pegawai Sakit</p>
+      <p class="text-2xl font-bold text-gray-800">{{$countKaryawanSakit}}</p>
+     </div>
     </div>
     <section>
      <h3 class="text-gray-900 font-semibold text-base mb-3 select-none">

@@ -11,30 +11,31 @@
     <h2 class="text-gray-900 font-semibold text-lg mb-4 select-none">
      Rekap Absensi Harian
     </h2>
-    <form
-     class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
-    >
-     <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
-      <label
-       class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0"
-       for="filterDate"
-       >Pilih Tanggal</label
-      >
-      <input
-       class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-       id="filterDate"
-       name="filterDate"
-       type="date"
-       value="2024-06-01"
-      />
-     </div>
-     <button
-      class="px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800"
-      type="submit"
-     >
-      Filter
-     </button>
-    </form>
+  <form
+ action="{{ route('admin.r_harian') }}" {{-- atau sesuai route kamu --}}
+ method="GET"
+ class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
+>
+ <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+  <label class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0" for="filterDate">
+   Pilih Tanggal
+  </label>
+  <input
+   class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+   id="filterDate"
+   name="filterDate"
+   type="date"
+   value="{{ request('filterDate') }}"
+  />
+ </div>
+ <button
+  class="px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800"
+  type="submit"
+ >
+  Filter
+ </button>
+</form>
+
     <div class="overflow-x-auto rounded border border-gray-200 bg-white">
      <table
       class="w-full border-collapse border border-gray-200 text-xs text-left text-gray-700"
@@ -51,26 +52,18 @@
        </tr>
       </thead>
       <tbody>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">Budi</td>
-        <td class="border border-gray-200 px-4 py-2">01 Juni 2024</td>
-        <td class="border border-gray-200 px-4 py-2">08:00</td>
-        <td class="border border-gray-200 px-4 py-2">17:00</td>
-        <td class="border border-gray-200 px-4 py-2 font-normal text-black">Hadir</td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Detail
-         </button>
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Edit
-         </button>
+       @php $counter = 1; @endphp
+@foreach ($getDataAbsensi as $karyawan)
+    @foreach ($karyawan->absensi as $absen)
+        <tr>
+            <td class="border border-gray-200 px-4 py-2">{{ $counter++ }}</td>
+            <td class="border border-gray-200 px-4 py-2 font-semibold">{{ $karyawan->nama }}</td>
+             <td class="border border-gray-200 px-4 py-2">{{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}</td>
+            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_masuk }}</td>
+            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_keluar ?? 'Belum ada data' }}</td>
+            <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">{{ $absen->status }}</td>
+             <td class="border border-gray-200 px-4 py-2 space-x-1">
+
          <button
           class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700 delete-btn"
           type="button"
@@ -78,63 +71,9 @@
           Hapus
          </button>
         </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">2</td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">Elsa</td>
-        <td class="border border-gray-200 px-4 py-2">01 Juni 2024</td>
-        <td class="border border-gray-200 px-4 py-2">08:15</td>
-        <td class="border border-gray-200 px-4 py-2">17:05</td>
-        <td class="border border-gray-200 px-4 py-2 font-normal text-black">Hadir</td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Detail
-         </button>
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Edit
-         </button>
-         <button
-          class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700 delete-btn"
-          type="button"
-         >
-          Hapus
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">3</td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">Sari</td>
-        <td class="border border-gray-200 px-4 py-2">01 Juni 2024</td>
-        <td class="border border-gray-200 px-4 py-2">-</td>
-        <td class="border border-gray-200 px-4 py-2">-</td>
-        <td class="border border-gray-200 px-4 py-2 font-normal text-black">Alfa</td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Detail
-         </button>
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Edit
-         </button>
-         <button
-          class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700 delete-btn"
-          type="button"
-         >
-          Hapus
-         </button>
-        </td>
-       </tr>
+        </tr>
+    @endforeach
+@endforeach
       </tbody>
      </table>
     </div>

@@ -12,30 +12,30 @@
      Rekap Absensi Bulanan
     </h2>
     <form
-     class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
-    >
-     <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
-      <label
-       class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0"
-       for="filterMonth"
-       >Pilih Bulan</label
-      >
-      <input
-       class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-       id="filterMonth"
-       name="filterMonth"
-       type="month"
-       value="2024-06"
-      />
-     </div>
-     <button
-      id="filterBtn"
-      class="px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800"
-      type="submit"
-     >
-      Filter
-     </button>
-    </form>
+ action="{{ route('admin.r_bulanan') }}"
+ method="GET"
+ class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
+>
+ <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+  <label for="filterMonth" class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0">
+   Pilih Bulan
+  </label>
+  <input
+   id="filterMonth"
+   name="filterMonth"
+   type="month"
+   value="{{ request('filterMonth', now()->format('Y-m')) }}"
+   class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+  />
+ </div>
+ <button
+  type="submit"
+  class="px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800"
+ >
+  Filter
+ </button>
+</form>
+
     <div class="overflow-x-auto rounded border border-gray-200 bg-white">
      <table
       class="w-full border-collapse border border-gray-200 text-xs text-left text-gray-700"
@@ -53,64 +53,30 @@
        </tr>
       </thead>
       <tbody id="tableBody">
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">Budi</td>
-        <td class="border border-gray-200 px-4 py-2">Juni 2024</td>
-        <td class="border border-gray-200 px-4 py-2">20</td>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2">0</td>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Detail
-         </button>
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Edit
-         </button>
-         <button
-          class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700 delete-btn"
-          type="button"
-         >
-          Hapus
-         </button>
-        </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">2</td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">Elsa</td>
-        <td class="border border-gray-200 px-4 py-2">Juni 2024</td>
-        <td class="border border-gray-200 px-4 py-2">22</td>
-        <td class="border border-gray-200 px-4 py-2">0</td>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2">0</td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Detail
-         </button>
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Edit
-         </button>
-         <button
-          class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700 delete-btn"
-          type="button"
-         >
-          Hapus
-         </button>
-        </td>
-       </tr>
+   @foreach($getDataAbsensi as $index => $karyawan)
+<tr>
+  <td class="border px-4 py-2">{{ $index + 1 }}</td>
+  <td class="border px-4 py-2 font-semibold">{{ $karyawan->nama }}</td>
+  <td class="border px-4 py-2">
+    {{ $filterMonth ? \Carbon\Carbon::createFromFormat('Y-m', $filterMonth)->translatedFormat('F Y') : '-' }}
+  </td>
+  <td class="border px-4 py-2">
+    {{ $karyawan->absensi->where('status', 'Hadir')->count() }}
+  </td>
+  <td class="border px-4 py-2">
+    {{ $karyawan->absensi->where('status', 'Alpha')->count() }}
+  </td>
+  <td class="border px-4 py-2">
+    {{ $karyawan->absensi->where('status', 'Izin')->count() }}
+  </td>
+  <td class="border px-4 py-2">
+    {{ $karyawan->absensi->where('status', 'Sakit')->count() }}
+  </td>
+  <td class="border px-4 py-2">...aksi...</td>
+</tr>
+@endforeach
+
+
       </tbody>
      </table>
     </div>

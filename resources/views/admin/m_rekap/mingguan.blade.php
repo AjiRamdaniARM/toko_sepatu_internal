@@ -11,9 +11,9 @@
     <h2 class="text-gray-900 font-semibold text-lg mb-4 select-none">
      Rekap Absensi Mingguan
     </h2>
-    <form
-     class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
-    >
+    <form method="GET" action="{{ route('admin.r_mingguan') }}"
+  class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
+
      <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
       <label
        class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0"
@@ -65,66 +65,36 @@
         <th class="border border-gray-200 px-4 py-2 font-semibold">Aksi</th>
        </tr>
       </thead>
-      <tbody>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">Budi</td>
-        <td class="border border-gray-200 px-4 py-2">1 Juni - 7 Juni 2024</td>
-        <td class="border border-gray-200 px-4 py-2">5</td>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2">0</td>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Detail
-         </button>
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Edit
-         </button>
-         <button
-          class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700 delete-btn"
-          type="button"
-         >
-          Hapus
-         </button>
+    <tbody>
+@foreach($getDataAbsensi as $index => $karyawan)
+    <tr>
+        <td class="border border-gray-200 px-4 py-2">{{ $index + 1 }}</td>
+        <td class="border border-gray-200 px-4 py-2 font-semibold">{{ $karyawan->nama }}</td>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ \Carbon\Carbon::parse($startWeek)->translatedFormat('j F') }} - 
+            {{ \Carbon\Carbon::parse($endWeek)->translatedFormat('j F Y') }}
         </td>
-       </tr>
-       <tr>
-        <td class="border border-gray-200 px-4 py-2">2</td>
-        <td class="border border-gray-200 px-4 py-2 font-semibold">Elsa</td>
-        <td class="border border-gray-200 px-4 py-2">1 Juni - 7 Juni 2024</td>
-        <td class="border border-gray-200 px-4 py-2">6</td>
-        <td class="border border-gray-200 px-4 py-2">0</td>
-        <td class="border border-gray-200 px-4 py-2">1</td>
-        <td class="border border-gray-200 px-4 py-2">0</td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Detail
-         </button>
-         <button
-          class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded select-none hover:bg-blue-800"
-          type="button"
-         >
-          Edit
-         </button>
-         <button
-          class="px-2 py-0.5 bg-red-600 text-white text-xs rounded select-none hover:bg-red-700 delete-btn"
-          type="button"
-         >
-          Hapus
-         </button>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ $karyawan->absensi->where('status', 'Hadir')->count() }}
         </td>
-       </tr>
-      </tbody>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ $karyawan->absensi->where('status', 'Alpha')->count() }}
+        </td>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ $karyawan->absensi->where('status', 'Izin')->count() }}
+        </td>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ $karyawan->absensi->where('status', 'Sakit')->count() }}
+        </td>
+        <td class="border border-gray-200 px-4 py-2 space-x-1">
+            <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800" type="button">Detail</button>
+            <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800" type="button">Edit</button>
+            <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700" type="button">Hapus</button>
+        </td>
+    </tr>
+@endforeach
+</tbody>
+
      </table>
     </div>
    </div>
