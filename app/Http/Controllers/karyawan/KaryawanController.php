@@ -5,9 +5,12 @@ namespace App\Http\Controllers\karyawan;
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
 use App\Models\k_hadiran;
+use App\Models\Karyawan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class KaryawanController extends Controller
 {
@@ -95,14 +98,14 @@ public function k_hadiran() {
 
 public function ketidak_hadiran_post(Request $request){
       $request->validate([
-            'date' => 'required|date',
+            // 'date' => 'required|date',
             'absenceType' => 'required|string',
             'reason' => 'required|string|max:1000',
         ]);
 
         // Simpan data ke database
         k_hadiran::create([
-            'kode_Id' => auth()->user()->kode_karyawan ?? null, // Atau isi dengan ID siswa jika tersedia
+            'kode_karyawan' => auth()->user()->kode_karyawan ?? null, // Atau isi dengan ID siswa jika tersedia
             'Nama' => auth()->user()->name ?? 'Anonim', // Atau dari form input
             'Alasan' => ucfirst($request->absenceType),
             'Catatan' => $request->reason,
@@ -110,7 +113,8 @@ public function ketidak_hadiran_post(Request $request){
 
         Absensi::create([
         'kode_karyawan' => auth()->user()->kode_karyawan ?? null,
-        'tanggal' => $request->date,
+        'tanggal' => now(),
+
         'status' => ucfirst($request->absenceType),
     ]);
 
@@ -131,4 +135,62 @@ public function ketidak_hadiran_post(Request $request){
 
         return redirect('/'); // Atau ke login page
     }
+
+
+     // == sub menu 
+   public function rekap_harian(Request $request)
+{
+    $filterDate = $request->input('filterDate'); // Format: YYYY-MM-DD
+    $kodeKaryawan = Auth::user()->kode_karyawan;
+    $getDataAbsensi = DB::table('absensis')
+        ->where('absensis.kode_karyawan', $kodeKaryawan)
+        ->when($filterDate, function ($query) use ($filterDate) {
+            $query->whereDate('tanggal', $filterDate);
+        })
+        ->join('karyawans', 'absensis.kode_karyawan', '=', 'karyawans.kode_karyawan')
+        ->select('absensis.*', 'karyawans.nama')
+        ->orderBy('tanggal', 'desc')
+        ->get();
+    return view('karyawan.m_rekap.harian', compact('getDataAbsensi', 'filterDate'));
+}
+
+public function rekap_mingguan(Request $request)
+{
+     $startWeek = $request->input('startWeek'); // Format: YYYY-MM-DD
+    $endWeek = $request->input('endWeek');     // Format: YYYY-MM-DD
+    $kodeKaryawan = Auth::user()->kode_karyawan;
+
+    $getDataAbsensi = DB::table('absensis')
+        ->where('absensis.kode_karyawan', $kodeKaryawan)
+        ->when($startWeek && $endWeek, function ($query) use ($startWeek, $endWeek) {
+            $query->whereBetween('tanggal', [$startWeek, $endWeek]);
+        })
+        ->join('karyawans', 'absensis.kode_karyawan', '=', 'karyawans.kode_karyawan')
+        ->select('absensis.*', 'karyawans.nama')
+        ->orderBy('tanggal', 'desc')
+        ->get();
+
+    return view('karyawan.m_rekap.mingguan', compact('getDataAbsensi','startWeek','endWeek'));
+}
+public function rekap_bulanan(Request $request)
+{
+     $filterMonth = $request->input('filterMonth'); // Format: YYYY-MM
+$kodeKaryawan = Auth::user()->kode_karyawan;
+    $getDataAbsensi = Karyawan::where('kode_karyawan',$kodeKaryawan )
+    ->with(['absensi' => function ($query) use ($filterMonth) {
+        if (!empty($filterMonth)) {
+            $year = substr($filterMonth, 0, 4);
+            $month = substr($filterMonth, 5, 2);
+            $query->whereYear('tanggal', $year)
+                  ->whereMonth('tanggal', $month);
+        }
+    }])->get();
+
+    return view('karyawan.m_rekap.bulanan', compact('getDataAbsensi', 'filterMonth'));
+}
+
+
+
+
+
 }

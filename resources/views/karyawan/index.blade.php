@@ -34,7 +34,7 @@
                 </div>
                 <p class="text-gray-900 text-sm font-semibold mb-4" id="textKeluar">Belum waktunya pulang</p>
                 <button type="button" id="btnKeluar"
-                        class="hidden mt-2 bg-blue-600 text-white text-sm font-semibold px-6 py-2 rounded-md hover:bg-blue-700 transition w-full">
+                        class="hidden mt-2 bg-red-600 text-white text-sm font-semibold px-6 py-2 rounded-md hover:bg-red-800 transition w-full">
                     PULANG
                 </button>
             </div>
@@ -72,7 +72,8 @@ function fetchStatusAbsen() {
 
 // ⏰ Fungsi update waktu dan tombol
 function updateTime() {
-    now = new Date(25,5,5, 16,0,0); // gunakan waktu asli
+    // now = new Date(25,5,5, 08,40,0);
+    now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');

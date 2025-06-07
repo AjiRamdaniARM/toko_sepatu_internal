@@ -11,44 +11,49 @@
     <h2 class="text-gray-900 font-semibold text-lg mb-4 select-none">
      Rekap Absensi Mingguan
     </h2>
-    <form method="GET" action="{{ route('admin.r_mingguan') }}"
-  class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
+   <form method="GET" action="{{ route('admin.r_mingguan') }}"
+    class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
 
-     <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
-      <label
-       class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0"
-       for="startWeek"
-       >Mulai Minggu</label
-      >
-      <input
-       class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-       id="startWeek"
-       name="startWeek"
-       type="date"
-       value="2024-06-01"
-      />
-     </div>
-     <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
-      <label
-       class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0"
-       for="endWeek"
-       >Akhir Minggu</label
-      >
-      <input
-       class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
-       id="endWeek"
-       name="endWeek"
-       type="date"
-       value="2024-06-07"
-      />
-     </div>
-     <button
-      class="px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800"
-      type="submit"
-     >
-      Filter
-     </button>
-    </form>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+        <label class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0" for="startWeek">
+            Mulai Minggu
+        </label>
+        <input
+            class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+            id="startWeek"
+            name="startWeek"
+            type="date"
+            value="{{ request('startWeek', '2024-06-01') }}"
+        />
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+        <label class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0" for="endWeek">
+            Akhir Minggu
+        </label>
+        <input
+            class="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+            id="endWeek"
+            name="endWeek"
+            type="date"
+            value="{{ request('endWeek', '2024-06-07') }}"
+        />
+    </div>
+
+    <button type="submit"
+        class="px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800">
+        Filter
+    </button>
+
+    <a
+        href="{{ route('admin.pdfReportMingguan', ['startWeek' => request('startWeek'), 'endWeek' => request('endWeek')]) }}"
+        target="_blank"
+        class="px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700"
+    >
+        <i class="fas fa-file-alt mr-1"></i> Lihat Laporan PDF
+    </a>
+</form>
+
     <div class="overflow-x-auto rounded border border-gray-200 bg-white">
      <table
       class="w-full border-collapse border border-gray-200 text-xs text-left text-gray-700"
@@ -59,10 +64,9 @@
         <th class="border border-gray-200 px-4 py-2 font-semibold">Nama</th>
         <th class="border border-gray-200 px-4 py-2 font-semibold">Minggu</th>
         <th class="border border-gray-200 px-4 py-2 font-semibold">Hadir</th>
-        <th class="border border-gray-200 px-4 py-2 font-semibold">Alfa</th>
+        {{-- <th class="border border-gray-200 px-4 py-2 font-semibold">Alfa</th> --}}
         <th class="border border-gray-200 px-4 py-2 font-semibold">Izin</th>
         <th class="border border-gray-200 px-4 py-2 font-semibold">Sakit</th>
-        <th class="border border-gray-200 px-4 py-2 font-semibold">Aksi</th>
        </tr>
       </thead>
     <tbody>
@@ -77,20 +81,16 @@
         <td class="border border-gray-200 px-4 py-2">
             {{ $karyawan->absensi->where('status', 'Hadir')->count() }}
         </td>
-        <td class="border border-gray-200 px-4 py-2">
+        {{-- <td class="border border-gray-200 px-4 py-2">
             {{ $karyawan->absensi->where('status', 'Alpha')->count() }}
-        </td>
+        </td> --}}
         <td class="border border-gray-200 px-4 py-2">
             {{ $karyawan->absensi->where('status', 'Izin')->count() }}
         </td>
         <td class="border border-gray-200 px-4 py-2">
             {{ $karyawan->absensi->where('status', 'Sakit')->count() }}
         </td>
-        <td class="border border-gray-200 px-4 py-2 space-x-1">
-            <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800" type="button">Detail</button>
-            <button class="px-2 py-0.5 bg-blue-700 text-white text-xs rounded hover:bg-blue-800" type="button">Edit</button>
-            <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700" type="button">Hapus</button>
-        </td>
+       
     </tr>
 @endforeach
 </tbody>

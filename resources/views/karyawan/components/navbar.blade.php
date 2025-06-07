@@ -6,24 +6,21 @@
 
         <!-- Desktop User Menu -->
         <div class="hidden sm:flex items-center space-x-4 text-gray-600 text-sm select-none">
-          <button aria-label="Toggle dark mode" class="hover:text-gray-900">
-            <i class="fas fa-moon"></i>
-          </button>
-          <button aria-label="Notifications" class="relative hover:text-gray-900">
-            <i class="fas fa-bell"></i>
-            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-600 rounded-full border-2 border-white"></span>
-          </button>
+         
           <div class="flex items-center space-x-2">
-            <img
+            {{-- <img
               src="{{asset('assets/img/ningning.jpeg')}}"
               class="w-8 h-8 rounded-full object-cover"
               width="32"
               height="32"
               alt="Profile"
-            />
+            /> --}}
             <div class="text-xs leading-tight">
-              <p class="font-semibold text-gray-900">Ningning</p>
-              <p class="text-gray-400">Admin</p>
+             @if(Auth::check()) <p class="font-semibold text-gray-900">{{ Auth::user()->nama }}</p>
+              
+    <p class="text-gray-400">{{ Auth::user()->email }}</p>
+@endif
+
             </div>
           </div>
         </div>
@@ -47,17 +44,45 @@
       </a>
 
       <!-- Dropdown Rekap Presensi -->
-      <div class="relative" onmouseleave="delayHideDropdown()" onmouseenter="clearHideTimeout()">
-        <button class="flex items-center gap-1 hover:text-gray-900 focus:outline-none" onclick="toggleDropdown()">
-          <i class="fas fa-clipboard-list w-4 text-center"></i>
-          <span>Rekap Presensi</span>
-          <i class="fas fa-chevron-down text-xs"></i>
-        </button>
-        <div id="dropdown" class="absolute mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg hidden z-50">
-          <a href="{{ route('admin.r_harian')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Harian</a>
-          <a href="{{ route('admin.r_mingguan')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mingguan</a>
-          <a href="{{ route('admin.r_bulanan')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bulanan</a>
-        </div>
+   <div class="relative" onmouseleave="delayHideDropdown()" onmouseenter="clearHideTimeout()">
+    <div class="relative inline-block text-left">
+  <button
+    id="dropdownButton"
+    class="flex items-center gap-1 hover:text-gray-900 focus:outline-none"
+    onclick="toggleDropdown()"
+  >
+    <i class="fas fa-clipboard-list w-4 text-center"></i>
+    <span>Rekap Presensi</span>
+    <i class="fas fa-chevron-down text-xs"></i>
+  </button>
+
+  <div
+    id="dropdown"
+    class="absolute mt-2 w-40 bg-white border border-gray-200 rounded shadow-lg hidden z-50"
+  >
+    <a href="{{ route('r_harian.karyawan')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Harian</a>
+    <a href="{{ route('rekap_mingguan.karyawan')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Mingguan</a>
+    <a href="{{ route('rekap_bulanan.karyawan')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bulanan</a>
+  </div>
+</div>
+
+<script>
+  function toggleDropdown() {
+    const dropdown = document.getElementById('dropdown');
+    dropdown.classList.toggle('hidden');
+  }
+
+  // Tutup dropdown saat klik di luar
+  document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('dropdown');
+    const button = document.getElementById('dropdownButton');
+
+    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+      dropdown.classList.add('hidden');
+    }
+  });
+</script>
+
       </div>
       <a class="flex items-center gap-1 hover:text-gray-900" href="{{ route('k_hadiran_karyawan')}}">
         <i class="fas fa-calendar-times w-4 text-center"></i> <span>Ketidakhadiran</span>

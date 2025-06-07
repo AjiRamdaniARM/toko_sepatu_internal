@@ -11,7 +11,7 @@
       <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Formulir Ketidakhadiran</h2>
       <form action="{{ route('ketidak_hadiran_post')}}" class="space-y-6 text-base" method="post">
         @csrf
-        <div>
+        {{-- <div>
           <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Ketidakhadiran</label>
           <input
             type="date"
@@ -21,7 +21,7 @@
             class="w-full border border-gray-300 rounded-md px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
             
           />
-        </div>
+        </div> --}}
 
         <div>
           <label for="absenceType" class="block text-sm font-medium text-gray-700 mb-2">Jenis Ketidakhadiran</label>

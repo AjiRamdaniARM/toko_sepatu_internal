@@ -14,11 +14,11 @@
       <p class="text-sm font-semibold text-gray-600">Pegawai Hadir</p>
       <p class="text-2xl font-bold text-gray-800">{{$countKaryawan}}</p>
      </div>
-     <div class="bg-white border border-gray-300 rounded p-4 flex flex-col items-center space-y-2 select-none">
+     {{-- <div class="bg-white border border-gray-300 rounded p-4 flex flex-col items-center space-y-2 select-none">
       <i class="fas fa-user-times text-3xl text-gray-600"></i>
       <p class="text-sm font-semibold text-gray-600">Pegawai Alfa</p>
       <p class="text-2xl font-bold text-gray-800">{{$countKaryawanAlfa}}</p>
-     </div>
+     </div> --}}
      <div class="bg-white border border-gray-300 rounded p-4 flex flex-col items-center space-y-2 select-none">
       <i class="fas fa-user-clock text-3xl text-gray-600"></i>
       <p class="text-sm font-semibold text-gray-600">Pegawai Izin</p>
@@ -31,9 +31,16 @@
      </div>
     </div>
     <section>
-     <h3 class="text-gray-900 font-semibold text-base mb-3 select-none">
+      <div style="display: flex; justify-content: space-between;">
+         <h3 class="text-gray-900 font-semibold text-base mb-3 select-none">
       Rekap Presensi Harian
      </h3>
+      <button onclick="window.location.href='{{ route('admin.pdfReport')}}'" class="mb-4 px-4 py-2 bg-blue-700 text-white text-sm rounded select-none hover:bg-blue-800" type="button">
+      <i class="fas fa-file-alt mr-1">
+      </i>
+      Laporan
+    </button>
+      </div>
      <div class="overflow-x-auto rounded border border-gray-200 bg-white">
       <table class="w-full border-collapse border border-gray-200 text-xs text-left text-gray-700">
        <thead class="bg-gray-100">
@@ -55,8 +62,8 @@
             <td class="border border-gray-200 px-4 py-2">{{ $counter++ }}</td>
             <td class="border border-gray-200 px-4 py-2 font-semibold">{{ $karyawan->nama }}</td>
              <td class="border border-gray-200 px-4 py-2">{{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}</td>
-            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_masuk }}</td>
-            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_keluar ?? 'Belum ada data' }}</td>
+            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_masuk ?? '-' }}</td>
+            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_keluar ?? '-' }}</td>
             <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">{{ $absen->status }}</td>
         </tr>
     @endforeach

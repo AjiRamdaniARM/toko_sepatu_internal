@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('admin.components.header') 
+    @include('karyawan.components.header') 
 </head>
 <body class="bg-white text-gray-700">
-    @include('admin.components.navbar')
-        {{-- == main == --}}
-  <main class="bg-gray-50 min-h-[calc(100vh-96px)] py-6">
+    @include('karyawan.components.navbar')
+     <main class="bg-gray-50 min-h-[calc(100vh-96px)] py-6">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h2 class="text-gray-900 font-semibold text-lg mb-4 select-none">
      Rekap Absensi Harian
     </h2>
  <form
-    action="{{ route('admin.r_harian') }}"
+    action="{{ route('r_harian.karyawan') }}"
     method="GET"
     class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0"
 >
@@ -35,15 +34,6 @@
     >
         Filter
     </button>
-
-    {{-- Tombol untuk melihat laporan PDF (ikuti tanggal filter jika ada) --}}
-    <a
-        href="{{ route('admin.pdfReport', ['filterDate' => request('filterDate')]) }}"
-        target="_blank"
-        class="px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700"
-    >
-        <i class="fas fa-file-alt mr-1"></i> Lihat Laporan
-    </a>
 </form>
 
 
@@ -62,19 +52,26 @@
        </tr>
       </thead>
       <tbody>
-       @php $counter = 1; @endphp
-@foreach ($getDataAbsensi as $karyawan)
-    @foreach ($karyawan->absensi as $absen)
-        <tr>
-            <td class="border border-gray-200 px-4 py-2">{{ $counter++ }}</td>
-            <td class="border border-gray-200 px-4 py-2 font-semibold">{{ $karyawan->nama }}</td>
-             <td class="border border-gray-200 px-4 py-2">{{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}</td>
-            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_masuk ?? '-' }}</td>
-            <td class="border border-gray-200 px-4 py-2">{{ $absen->jam_keluar ?? '-' }}</td>
-            <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">{{ $absen->status }}</td>
-        </tr>
-    @endforeach
+     @php $counter = 1; @endphp
+@foreach ($getDataAbsensi as $absen)
+    <tr>
+        <td class="border border-gray-200 px-4 py-2">{{ $counter++ }}</td>
+        <td class="border border-gray-200 px-4 py-2 font-semibold">{{ $absen->nama }}</td>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ \Carbon\Carbon::parse($absen->tanggal)->format('d M Y') }}
+        </td>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ $absen->jam_masuk ?? '-' }}
+        </td>
+        <td class="border border-gray-200 px-4 py-2">
+            {{ $absen->jam_keluar ?? '-' }}
+        </td>
+        <td class="border border-gray-200 px-4 py-2 font-normal text-gray-800">
+            {{ $absen->status }}
+        </td>
+    </tr>
 @endforeach
+
       </tbody>
      </table>
     </div>

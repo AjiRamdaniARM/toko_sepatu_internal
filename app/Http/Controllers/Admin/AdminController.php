@@ -7,6 +7,7 @@ use App\Models\Absensi;
 use App\Models\Departemen;
 use App\Models\k_hadiran;
 use App\Models\Karyawan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -129,6 +130,50 @@ public function r_bulanan(Request $request)
 
     return view('admin.m_rekap.bulanan', compact('getDataAbsensi', 'filterMonth'));
 }
+ public function pdfReportBulanan(Request $request)
+    {
+        $filterMonth = $request->input('filterMonth', date('Y-m'));
+
+        $year = substr($filterMonth, 0, 4);
+        $month = substr($filterMonth, 5, 2);
+
+        if (!is_numeric($year) || !is_numeric($month)) {
+            $year = date('Y');
+            $month = date('m');
+            $filterMonth = date('Y-m');
+        }
+
+        $getDataAbsensi = Karyawan::with(['absensi' => function ($query) use ($year, $month) {
+            $query->whereYear('tanggal', $year)
+                  ->whereMonth('tanggal', $month);
+        }])->get();
+
+        $pdf = PDF::loadView('admin.components.pdf.ReportPdfBulanan', compact('getDataAbsensi', 'filterMonth'));
+
+        return $pdf->stream('rekap_absensi_bulanan_' . $filterMonth . '.pdf');
+    }
+
+     public function pdfReportKetidakhadiran(Request $request)
+{
+    $startDate = $request->input('startDate');
+    $endDate = $request->input('endDate');
+
+    $query = k_hadiran::with('karyawan')->orderBy('created_at', 'asc');
+
+    if (!empty($startDate) && !empty($endDate)) {
+        $query->whereBetween('created_at', [$startDate, $endDate]);
+        $periode = date('d M Y', strtotime($startDate)) . ' s/d ' . date('d M Y', strtotime($endDate));
+    } else {
+        $periode = 'Semua Periode';
+    }
+
+    $getData = $query->get();
+
+    $pdf = PDF::loadView('admin.components.pdf.ReportPdfKetidakhadiran', compact('getData', 'periode'));
+
+    return $pdf->stream('laporan_ketidakhadiran_' . ($startDate ?? 'semua') . '_sd_' . ($endDate ?? 'semua') . '.pdf');
+}
+
 
   public function r_mingguan(Request $request)
 {
@@ -143,6 +188,28 @@ public function r_bulanan(Request $request)
 
     return view('admin.m_rekap.mingguan', compact('getDataAbsensi', 'startWeek', 'endWeek'));
 }
+
+    public function pdfReportMingguan(Request $request)
+{
+    $start = $request->startWeek;
+    $end = $request->endWeek;
+
+    $karyawan = Karyawan::with(['absensi' => function ($q) use ($start, $end) {
+        if ($start && $end) {
+            $q->whereBetween('tanggal', [$start, $end]);
+        }
+    }])->get();
+
+    $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.components.pdf.ReportPdfMingguanView', [
+        'karyawan' => $karyawan,
+        'start' => $start,
+        'end' => $end,
+    ]);
+
+    return $pdf->stream('rekap_presensi_mingguan.pdf');
+}
+
+
     public function k_hadiran(Request $request) {
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
@@ -153,9 +220,52 @@ public function r_bulanan(Request $request)
             ->get();
          return view('admin.k_hadiran', compact('getData'));
     }
+
+
+
+
+
+public function pdfReport(Request $request)
+{
+    $filterDate = $request->input('filterDate');
+
+    $karyawan = \App\Models\Karyawan::with(['absensi' => function ($query) use ($filterDate) {
+        if ($filterDate) {
+            $query->whereDate('tanggal', $filterDate);
+        }
+    }])->get();
+
+    $pdf = Pdf::loadView('admin.components.pdf.ReportPdfView', [
+        'karyawan' => $karyawan,
+        'filterDate' => $filterDate
+    ]);
+
+    return $pdf->stream('rekap_presensi_harian.pdf');
+}
+
+
+
+ public function delete_k_hadiran($id)
+{
+    // Cari data berdasarkan ID
+    $data = k_hadiran::find($id);
+
+    if (!$data) {
+        return redirect()->back()->with('error', 'Data kehadiran tidak ditemukan.');
+    }
+
+    // Hapus data
+    $data->delete();
+
+    return redirect()->back()->with('success', 'Data kehadiran berhasil dihapus.');
+}
+
+
     public function logout() {
          return view('admin.logout');
     }
+
+
 
     // === function crud === 
     public function logoutPost() {

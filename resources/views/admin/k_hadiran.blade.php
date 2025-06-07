@@ -28,6 +28,15 @@
       <div class="flex items-end">
         <button type="submit"
           class="w-full sm:w-auto px-4 py-2 bg-blue-700 text-white text-sm rounded hover:bg-blue-800">Filter</button>
+          &nbsp;
+     <a
+    href="{{ route('admin.pdfReportKetidakhadiran', ['startDate' => request('startDate'), 'endDate' => request('endDate')]) }}"
+    target="_blank"
+    class="px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700"
+>
+    <i class="fas fa-file-alt mr-1"></i> Lihat Laporan
+</a>
+
       </div>
     </div>
     </form>
@@ -56,8 +65,13 @@
               <td class="border border-gray-200 px-4 py-2">{{ $k_absen->Alasan }}</td>
               <td class="border border-gray-200 px-4 py-2">{{ $k_absen->Catatan }}</td>
               <td class="border border-gray-200 px-4 py-2 space-x-1">
-                <button class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700">Hapus</button>
-              </td>
+    <form action="{{ route('admin.delete.ketidak_hadiran', ['id' => $k_absen->id]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus semua data kehadiran untuk karyawan ini?')">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="px-2 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700">Hapus</button>
+    </form>
+</td>
+
             </tr>
           @endforeach
          

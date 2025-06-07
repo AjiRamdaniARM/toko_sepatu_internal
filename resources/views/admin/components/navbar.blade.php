@@ -6,24 +6,21 @@
 
         <!-- Desktop User Menu -->
         <div class="hidden sm:flex items-center space-x-4 text-gray-600 text-sm select-none">
-          <button aria-label="Toggle dark mode" class="hover:text-gray-900">
-            <i class="fas fa-moon"></i>
-          </button>
-          <button aria-label="Notifications" class="relative hover:text-gray-900">
-            <i class="fas fa-bell"></i>
-            <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-600 rounded-full border-2 border-white"></span>
-          </button>
+         
           <div class="flex items-center space-x-2">
-            <img
+            {{-- <img
               src="{{asset('assets/img/ningning.jpeg')}}"
               class="w-8 h-8 rounded-full object-cover"
               width="32"
               height="32"
               alt="Profile"
-            />
+            /> --}}
             <div class="text-xs leading-tight">
-              <p class="font-semibold text-gray-900">Ningning</p>
-              <p class="text-gray-400">Admin</p>
+             @if(Auth::check()) <p class="font-semibold text-gray-900">{{ Auth::user()->username }}</p>
+              
+    <p class="text-gray-400">{{ Auth::user()->email }}</p>
+@endif
+
             </div>
           </div>
         </div>

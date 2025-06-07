@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('admin.components.header') 
+    @include('karyawan.components.header') 
 </head>
 <body class="bg-white text-gray-700">
-    @include('admin.components.navbar')
+    @include('karyawan.components.navbar')
         {{-- == main == --}}
    <main class="bg-gray-50 min-h-[calc(100vh-96px)] py-6">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <h2 class="text-gray-900 font-semibold text-lg mb-4 select-none">
      Rekap Absensi Bulanan
     </h2>
-   <form action="{{ route('admin.r_bulanan') }}" method="GET"
+   <form action="{{ route('rekap_bulanan.karyawan') }}" method="GET"
   class="mb-6 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-4 sm:space-y-0">
   <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
     <label for="filterMonth" class="text-xs font-semibold text-gray-700 mb-1 sm:mb-0">
@@ -29,14 +29,6 @@
     Filter
   </button>
 
- {{-- Tombol untuk melihat laporan PDF (ikuti tanggal filter jika ada) --}}
-    <a
-        href="{{ route('admin.pdfReportBulanan', ['filterMonth' => request('filterMonth')]) }}"
-        target="_blank"
-        class="px-4 py-2 bg-green-600 text-white text-sm rounded hover:bg-green-700"
-    >
-        <i class="fas fa-file-alt mr-1"></i> Lihat Laporan
-    </a>
 
 </form>
 
@@ -56,7 +48,7 @@
         <th class="border border-gray-200 px-4 py-2 font-semibold">Sakit</th>
       </thead>
       <tbody id="tableBody">
-   @foreach($getDataAbsensi as $index => $karyawan)
+    @foreach($getDataAbsensi as $index => $karyawan)
 <tr>
   <td class="border px-4 py-2">{{ $index + 1 }}</td>
   <td class="border px-4 py-2 font-semibold">{{ $karyawan->nama }}</td>
@@ -78,6 +70,7 @@
 
 </tr>
 @endforeach
+
 
 
       </tbody>
